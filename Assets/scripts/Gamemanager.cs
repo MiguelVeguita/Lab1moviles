@@ -4,31 +4,32 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+
 public class Gamemanager : MonoBehaviour
 {
     [Header("Configuración de Objetos")]
     public GameObject ObjetoCreado;
-    public Color[] colors;
-    public Sprite[] shapes;
+    public ColorData[] colorOptions;
+    public ShapeDate[] shapeOptions;
 
     private Color selectedColor = Color.white;
     private Sprite selectedShape;
 
     public Canvas canvas;
 
-   [Header("configuracion del deleteador")]
+    [Header("configuracion del deleteador")]
     public GameObject deletionAreaPrefab;
     public float deletionAreaDuration = 0.5f;
 
     private float doubleTapTimeThreshold = 0.3f;
     private float lastTapTime;
-    private GameObject draggedObject; 
-    private bool isDragging = false; 
-    private Vector2 offset; 
+    private GameObject draggedObject;
+    private bool isDragging = false;
+    private Vector2 offset;
 
-   
-    private Vector2 swipeStartPosition; 
-    private bool isSwiping = false; 
+
+    private Vector2 swipeStartPosition;
+    private bool isSwiping = false;
     public float swipeThreshold = 50f;
 
     [Header("Configuración de TrailRender")]
@@ -38,21 +39,22 @@ public class Gamemanager : MonoBehaviour
     [Header("Lista de Objetos Creados")]
     private List<GameObject> objetosCreados = new List<GameObject>();
 
-    public void SetColor(int colorIndex)
+    public void SetColor(int indexBoton)
     {
-        if (colorIndex >= 0 && colorIndex < colors.Length)
+        if (indexBoton >= 0 && indexBoton < colorOptions.Length)
         {
-            selectedColor = colors[colorIndex];
+            selectedColor = colorOptions[indexBoton].colors;
             Debug.Log("Color seleccionado: " + selectedColor);
         }
     }
 
-    public void SetShape(int shapeIndex)
+
+    public void SetShape(int indexBoton)
     {
-        if (shapeIndex >= 0 && shapeIndex < shapes.Length)
+        if (indexBoton >= 0 && indexBoton < shapeOptions.Length)
         {
-            selectedShape = shapes[shapeIndex];
-            Debug.Log("Forma seleccionada: " + selectedShape.name);
+            selectedShape = shapeOptions[indexBoton].Sprite;
+            Debug.Log("Forma seleccionada: " + shapeOptions[indexBoton].Nombre);
         }
     }
 
@@ -128,7 +130,7 @@ public class Gamemanager : MonoBehaviour
 
     private bool IsTouchInRestrictedArea(Vector2 touchPosition)
     {
-        float restrictedAreaHeight = 450f; 
+        float restrictedAreaHeight = 450f;
         return touchPosition.y > Screen.height - restrictedAreaHeight;
     }
 
@@ -240,7 +242,7 @@ public class Gamemanager : MonoBehaviour
 
             Destroy(deletionArea, deletionAreaDuration);
         }
-      
+
     }
 
     private void CrearTrail(Vector2 screenPosition)
